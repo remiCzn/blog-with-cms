@@ -1,0 +1,9 @@
+{
+	"apps": [
+		{
+			"name": "[Blog/CMS] run",
+			"script": "src/index.js",
+			"cwd": "/root/apps/bloc-with-cms/dist"
+		}
+	]
+}

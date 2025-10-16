@@ -20,43 +20,44 @@ jobs:
       - name: Setup Volta, install Node.js and Yarn
         uses: volta-cli/action@v4
 
+      - name: Install transcrypt
+        run: |
+          CRYPT_TMP_DIR="$(mktemp -d)"
+          curl -fsSL https://raw.githubusercontent.com/elasticdog/transcrypt/refs/heads/main/transcrypt -o "$CRYPT_TMP_DIR/transcrypt"
+          chmod +x "$CRYPT_TMP_DIR/transcrypt"
+          echo "CRYPT_TMP_DIR=$CRYPT_TMP_DIR" >> $GITHUB_ENV
+
+      - name: Decrypt secrets with transcrypt
+        run: |
+          "$CRYPT_TMP_DIR/transcrypt" -y -p "$TRANSCRYPT_PASSWORD"
+        env:
+          TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
+
       - name: Build
         run: sh build.sh
 
-      # - name: Install transcrypt
-      #   run: |
-      #     CRYPT_TMP_DIR="$(mktemp -d)"
-      #     curl -fsSL https://raw.githubusercontent.com/elasticdog/transcrypt/refs/heads/main/transcrypt -o "$CRYPT_TMP_DIR/transcrypt"
-      #     chmod +x "$CRYPT_TMP_DIR/transcrypt"
-      #     echo "CRYPT_TMP_DIR=$CRYPT_TMP_DIR" >> $GITHUB_ENV
+      - name: Upload build/ to server via SCP
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "dist/**"
+          target: ${{ secrets.SSH_TARGET }}
+          rm: true
 
-      # - name: Decrypt secrets with transcrypt
-      #   run: |
-      #     "$CRYPT_TMP_DIR/transcrypt" -y -p "$TRANSCRYPT_PASSWORD"
-      #   env:
-      #     TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
+      - name: Restart backend with PM2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            export PATH=$PATH:/root/.local/share/pnpm
 
-      # - name: Upload build/ to server via SCP
-      #   uses: appleboy/scp-action@v1.0.0
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USERNAME }}
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     source: "dist/**"
-      #     target: ${{ secrets.SSH_TARGET }}
-      #     rm: true
+            cd ${{ secrets.SSH_TARGET }}/dist
 
-      # - name: Restart backend with PM2
-      #   uses: appleboy/ssh-action@v1.0.0
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USERNAME }}
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     script: |
-      #       export NVM_DIR=~/.nvm
-      #       source ~/.nvm/nvm.sh
-      #       export PATH=$PATH:/root/.local/share/pnpm
-
-      #       cd ${{ secrets.SSH_TARGET }}/build
-      #       yarn install --frozen-lockfile --production
-      #       pm2 startOrRestart pm2.json
+            yarn install --frozen-lockfile --production
+            pm2 startOrRestart pm2.json
