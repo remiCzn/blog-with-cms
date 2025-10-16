@@ -1,4 +1,3 @@
-import { auth } from "../lib/auth";
 import { createRouter } from "../utils/createApp";
 
 const adminRouter = createRouter()
