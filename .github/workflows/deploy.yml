@@ -6,7 +6,7 @@ on:
   workflow_dispatch: {}
 
 concurrency:
-  group: deploy-backend-${{ github.ref }}
+  group: deploy-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
