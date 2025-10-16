@@ -6,7 +6,7 @@ const experiences = [
   {
     role: "Software engineer",
     company: "Galadrim",
-    period: "Janvier 2024 - Aujourd'hui",
+    period: "Janv. 2024 - Auj.",
     description: `Développement d'outils internes pour le groupement de pharmacies Leadersanté (1000+ établissements), dont un outil de crossposting multi-plateforme (Facebook, Instagram, Google), et moteur de recherche distribué de factures (OpenSearch + PostgreSQL) avec OCR automatisé. Conception et maintenance d'une application mobile sociale dans le secteur du café de spécialité (700 utilisateurs actifs).`,
     stack: [
       "NodeJS",
@@ -21,15 +21,15 @@ const experiences = [
   {
     role: "Ingénieur logiciel - Stage de fin d'études",
     company: "Orange Innovation",
-    period: "Avril 2023 - Septembre 2023",
+    period: "Avr.-Sept. 2023",
     description:
       "Développement d'une solution logicielle de visualisation de topologie réseau. Manipulation des protocoles réseau (BGP, IS-IS, IGP, Flex-Algo), et intégration back-end (Python + PostgreSQL). Déploiement et test de cette solution sur environnement virtualisé.",
     stack: ["Python", "PostgreSQL", "VueJS", "Docker"],
   },
   {
-    role: "Césure - stage et CDD - Ingénieur logiciel",
+    role: "Ingénieur logiciel - Césure - stage et CDD",
     company: "Polyconseil",
-    period: "Septembre 2021 - Août 2022",
+    period: "Sept. 2021 - Août 2022",
     description:
       "Développement et maintenance pour le compte d'une agence gouvernementale (ANTAI) d'une des briques logicielles de traitement automatisé des infractions.",
     stack: ["Java", "Spring", "Oracle DB", "Angular", "Oracle DB"],
@@ -239,7 +239,7 @@ export default function HomePage() {
                     className="card border-l-4 border-primary bg-base-100 shadow"
                   >
                     <div className="card-body space-y-2">
-                      <div className="flex items-center justify-between gap-4">
+                      <div className="flex-col md:flex-row flex items-start md:items-center justify-between gap-4">
                         <div>
                           <h4 className="text-lg font-semibold">
                             {experience.role}
@@ -278,7 +278,7 @@ export default function HomePage() {
                       data-animate
                     >
                       <div className="card-body space-y-1">
-                        <div className="flex items-center justify-between">
+                        <div className="flex-col md:flex-row flex items-start md:items-center justify-between">
                           <h4 className="font-semibold">{item.title}</h4>
                           <span className="badge badge-outline badge-sm">
                             {item.period}
@@ -327,7 +327,7 @@ export default function HomePage() {
 
         <section id="projets" className="space-y-8 pt-12">
           <div className="flex items-center justify-between" data-animate>
-            <div>
+            <div className="flex-1">
               <h2 className="text-3xl font-semibold">
                 Projets extra-professionnels
               </h2>
