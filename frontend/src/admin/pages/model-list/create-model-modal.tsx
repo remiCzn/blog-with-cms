@@ -17,8 +17,9 @@ const CreateModelModal = () => {
         open={open}
         className={cn("modal", open && "modal-open")}
         onClose={() => setOpen(false)}
+        onClick={() => setOpen(false)}
       >
-        <div className="modal-box">
+        <div className="modal-box" onClick={(e) => e.stopPropagation()}>
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
             onClick={() => setOpen(false)}
@@ -57,12 +58,12 @@ const CreateModelModal = () => {
             <div className="flex flex-row justify-end gap-2 pt-4">
               <button
                 type="button"
-                className="btn btn-primary btn-outline"
+                className="btn btn-neutral btn-outline"
                 onClick={() => setOpen(false)}
               >
                 Cancel
               </button>
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn btn-neutral">
                 Create model
               </button>
             </div>

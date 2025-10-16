@@ -1,6 +1,14 @@
+import { auth } from "../lib/auth";
 import { createRouter } from "../utils/createApp";
 
 const adminRouter = createRouter()
+  .use(async (c, next) => {
+    const user = c.get("user");
+    if (!user) {
+      return c.text("Unauthorized", 401);
+    }
+    return next();
+  })
   .get("/models", async (c) => {
     const db = c.get("db");
     const models = await db.query.contentModel.findMany({
@@ -27,6 +35,8 @@ const adminRouter = createRouter()
 //     })
 //   )
 // );
+
+adminRouter;
 
 export default adminRouter;
 export type AdminRouterType = typeof adminRouter;

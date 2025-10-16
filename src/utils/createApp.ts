@@ -3,10 +3,13 @@ import { Hono } from "hono";
 import db from "../lib/db";
 import { zValidator } from "@hono/zod-validator";
 import * as z from "zod";
+import { auth } from "../lib/auth";
 
 export type AuthType = {
   Variables: {
     db: typeof db;
+    user: typeof auth.$Infer.Session.user | null;
+    session: typeof auth.$Infer.Session.session | null;
   };
 };
 
