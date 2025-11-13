@@ -1,13 +1,18 @@
-import { Github, Linkedin, Mail, Menu } from "lucide-react";
+import { Github, Linkedin, Menu } from "lucide-react";
 import { useEffect } from "react";
 import Footer from "../components/footer";
+import ProfileImage from "../components/profile-image";
+import type { Experience } from "../types/experience";
 
-const experiences = [
+const experiences: Experience[] = [
   {
     role: "Software engineer",
     company: "Galadrim",
     period: "Janv. 2024 - Auj.",
-    description: `Développement d'outils internes pour le groupement de pharmacies Leadersanté (1000+ établissements), dont un outil de crossposting multi-plateforme (Facebook, Instagram, Google), et moteur de recherche distribué de factures (OpenSearch + PostgreSQL) avec OCR automatisé. Conception et maintenance d'une application mobile sociale dans le secteur du café de spécialité (700 utilisateurs actifs).`,
+    description: [
+      "Développement d'outils internes pour un groupement de pharmacies (1000+ établissements), dont un outil de crossposting multi-plateforme (Facebook, Instagram, Google), et moteur de recherche distribué de factures (OpenSearch + PostgreSQL) avec OCR automatisé (Textract + GPT)",
+      "Conception et maintenance d'une application mobile sociale dans le secteur du café de spécialité (700 utilisateurs actifs).",
+    ],
     stack: [
       "NodeJS",
       "React",
@@ -22,8 +27,11 @@ const experiences = [
     role: "Ingénieur logiciel - Stage de fin d'études",
     company: "Orange Innovation",
     period: "Avr.-Sept. 2023",
-    description:
-      "Développement d'une solution logicielle de visualisation de topologie réseau. Manipulation des protocoles réseau (BGP, IS-IS, IGP, Flex-Algo), et intégration back-end (Python + PostgreSQL). Déploiement et test de cette solution sur environnement virtualisé.",
+    description: [
+      "Développement d'une solution logicielle de visualisation de topologie réseau.",
+      "Manipulation des protocoles réseau (BGP, IS-IS, IGP, Flex-Algo), et intégration back-end (Python + PostgreSQL).",
+      "Déploiement et test de cette solution sur environnement virtualisé.",
+    ],
     stack: ["Python", "PostgreSQL", "VueJS", "Docker"],
   },
   {
@@ -31,7 +39,7 @@ const experiences = [
     company: "Polyconseil",
     period: "Sept. 2021 - Août 2022",
     description:
-      "Développement et maintenance pour le compte d'une agence gouvernementale (ANTAI) d'une des briques logicielles de traitement automatisé des infractions.",
+      "Développement et maintenance pour le compte d'une agence gouvernementale d'une des briques logicielles de traitement automatisé des infractions.",
     stack: ["Java", "Spring", "Oracle DB", "Angular", "Oracle DB"],
   },
 ];
@@ -42,8 +50,11 @@ const education = [
       "Diplôme d'ingénieur généraliste - spécialisation ingénierie logicielle",
     school: "IMT Atlantique, Brest - Institut Mines-Télécom",
     period: "2016 - 2018",
-    details:
-      " Spécialité ingénierie logicielle. Cours notables: architecture microservices, cloud computing, compilation. Tronc commun: mathématiques, physique théorique",
+    details: [
+      "Spécialité ingénierie logicielle.",
+      "Cours notables: architecture microservices, cloud computing, compilation.",
+      "Tronc commun: mathématiques, physique théorique",
+    ],
   },
   {
     title: "Classe préparatoire aux grandes écoles (CPGE) - MPSI/MP*",
@@ -76,7 +87,7 @@ const projects = [
     name: "Moteur de recherche full-text sur stockage objet S3 compatible",
     description:
       "Moteur de recherche léger pour indexer des fichiers texte stockés sur un bucket S3-compatible (MinIO). Backend en Go pour la gestion de l’index et de l’API HTTP, interface React pour la recherche et le téléchargement des objets.",
-    stack: ["Go", "S3/MinIO", "React"],
+    stack: ["Go", "S3", "MinIO", "React"],
     github: "https://github.com/remiCzn/s3-search-engine",
     demo: "https://s3-search.remic.fr",
   },
@@ -84,7 +95,7 @@ const projects = [
     name: "Filtrage d’e-mails et externalisation de pièces jointes via MinIO",
     description:
       "Système de filtrage d'e-mails intégré à Postfix, redirigeant les pièces jointes volumineuses vers un stockage objet, via une API Flask (Python), avec génération de liens sécurisés et service de purge automatisée. Projet réalisé dans le cadre de mes études",
-    stack: ["Flask", "Postfix", "MinIO", "Docker", "Python"],
+    stack: ["Flask", "Postfix", "S3", "MinIO", "Docker", "Python"],
     github: "https://github.com/username/flow-builder",
   },
 ];
@@ -99,11 +110,6 @@ const contacts = [
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/remicazin",
     icon: <Linkedin />,
-  },
-  {
-    label: "Email",
-    href: "mailto:cazinremi@gmail.com",
-    icon: <Mail />,
   },
 ];
 
@@ -142,7 +148,7 @@ export default function HomePage() {
         <div className="navbar mx-auto max-w-6xl px-4 py-4">
           <div className="flex-1">
             <a href="#accueil" className="text-xl font-semibold tracking-tight">
-              Rémi Cazin
+              Rémi C.
             </a>
           </div>
           <nav className="hidden gap-4 md:flex">
@@ -184,10 +190,7 @@ export default function HomePage() {
           <div className="hero-content flex-col gap-10 lg:flex-row">
             <div className="avatar placeholder">
               <div className="mask mask-squircle bg-gradient-to-tr from-primary to-secondary p-1">
-                <img
-                  src="https://avatars.githubusercontent.com/u/77072160"
-                  className="h-44 w-44 items-center justify-center rounded-2xl"
-                />
+                <ProfileImage />
               </div>
             </div>
             <div className="max-w-xl space-y-6">
@@ -252,9 +255,17 @@ export default function HomePage() {
                           {experience.period}
                         </span>
                       </div>
-                      <p className="opacity-80">{experience.description}</p>
+                      {Array.isArray(experience.description) ? (
+                        <ul className="list-disc pl-5 opacity-80">
+                          {experience.description.map((point, index) => (
+                            <li key={index}>{point}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p className="opacity-80">{experience.description}</p>
+                      )}
                       <div className="flex flex-wrap gap-2">
-                        {experience.stack.map((tech) => (
+                        {experience.stack?.map((tech) => (
                           <span key={tech} className="badge badge-ghost">
                             {tech}
                           </span>
@@ -287,7 +298,15 @@ export default function HomePage() {
                         <p className="text-sm font-medium opacity-80">
                           {item.school}
                         </p>
-                        <p className="text-sm opacity-70">{item.details}</p>
+                        {Array.isArray(item.details) ? (
+                          <ul className="list-disc pl-5 opacity-80">
+                            {item.details.map((detail, index) => (
+                              <li key={index}>{detail}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p className="text-sm opacity-70">{item.details}</p>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -308,10 +327,7 @@ export default function HomePage() {
                         <h4 className="font-semibold">{group.name}</h4>
                         <div className="flex flex-wrap gap-2">
                           {group.skills.map((skill) => (
-                            <span
-                              key={skill}
-                              className="badge badge-secondary badge-outline"
-                            >
+                            <span key={skill} className="badge badge-secondary">
                               {skill}
                             </span>
                           ))}
@@ -350,15 +366,11 @@ export default function HomePage() {
                 <div className="card-body space-y-4">
                   <div className="flex items-center justify-between">
                     <h3 className="text-2xl font-semibold">{project.name}</h3>
-                    <div className="badge badge-outline">Produit</div>
                   </div>
                   <p className="opacity-80">{project.description}</p>
                   <div className="flex flex-wrap gap-2">
                     {project.stack.map((tech) => (
-                      <span
-                        key={tech}
-                        className="badge badge-secondary badge-outline"
-                      >
+                      <span key={tech} className="badge badge-secondary">
                         {tech}
                       </span>
                     ))}
