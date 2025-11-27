@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const profileImages = [
   {
-    src: "https://media.licdn.com/dms/image/v2/D4E03AQE1Z3yGLa8zdA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1706864952290?e=1764201600&v=beta&t=67enqewtAyN12PkkJWS7kSBwlj8Dj-fL0jVhtd9Yoco",
+    src: "/photo1.jpeg",
     alt: "1",
   },
   {

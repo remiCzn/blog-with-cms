@@ -1,4 +1,4 @@
-import { Github, Linkedin, Menu } from "lucide-react";
+import { Construction, Github, Linkedin, Menu } from "lucide-react";
 import { useEffect } from "react";
 import Footer from "../components/footer";
 import ProfileImage from "../components/profile-image";
@@ -10,7 +10,7 @@ const experiences: Experience[] = [
     company: "Galadrim",
     period: "Janv. 2024 - Auj.",
     description: [
-      "Développement d'outils internes pour un groupement de pharmacies (1000+ établissements), dont un outil de crossposting multi-plateforme (Facebook, Instagram, Google), et moteur de recherche distribué de factures (OpenSearch + PostgreSQL) avec OCR automatisé (Textract + GPT)",
+      "Développement d'outils internes pour un groupement de pharmacies (1000+ établissements), dont un outil de crossposting multi-plateforme (Facebook, Instagram, Google), et moteur de recherche distribué de factures (OpenSearch + PostgreSQL) avec OCR automatisé (Textract + GPT). Intégration de LLMs (via OpenAI API Platform, Amazon Bedrock) dans ces outils.",
       "Conception et maintenance d'une application mobile sociale dans le secteur du café de spécialité (700 utilisateurs actifs).",
     ],
     stack: [
@@ -96,7 +96,15 @@ const projects = [
     description:
       "Système de filtrage d'e-mails intégré à Postfix, redirigeant les pièces jointes volumineuses vers un stockage objet, via une API Flask (Python), avec génération de liens sécurisés et service de purge automatisée. Projet réalisé dans le cadre de mes études",
     stack: ["Flask", "Postfix", "S3", "MinIO", "Docker", "Python"],
-    github: "https://github.com/username/flow-builder",
+    github:
+      "https://github.com/Don-t-ttach-my-documents/don-t-ttach-my-documents",
+  },
+  {
+    name: "Outil d’analyse de signal audio",
+    description:
+      "Application desktop Tauri (Rust + React) permettant d’ingérer des fichiers audio, d’analyser le signal (détection de tempo, segmentation en mesures, calcul RMS), et de visualiser les pistes via un lecteur embarqué.",
+    stack: ["Rust", "Tauri", "React", "NodeJS"],
+    github: "https://github.com/remiCzn/easy-dsp",
   },
 ];
 
@@ -398,6 +406,20 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
+            <a
+              href="https://github.com/remiCzn?tab=repositories"
+              data-animate
+              className="card bg-base-100/90 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+            >
+              <div className="card-body h-full flex flex-col items-center justify-center space-y-4">
+                <Construction className="size-10" />
+                <div>
+                  <p className="font-medium text-base">
+                    D'autres en cours et à venir...
+                  </p>
+                </div>
+              </div>
+            </a>
           </div>
         </section>
 
