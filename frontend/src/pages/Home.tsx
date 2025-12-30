@@ -8,7 +8,8 @@ const experiences: Experience[] = [
   {
     role: "Software engineer",
     company: "Galadrim",
-    period: "Janv. 2024 - Auj.",
+    companyUrl: "https://galadrim.fr/",
+    period: "Janv. 2024 - Auj. (2 ans)",
     description: [
       "Développement d'outils internes pour un groupement de pharmacies (1000+ établissements), dont un outil de crossposting multi-plateforme (Facebook, Instagram, Google), et moteur de recherche distribué de factures (OpenSearch + PostgreSQL) avec OCR automatisé (Textract + GPT). Intégration de LLMs (via OpenAI API Platform, Amazon Bedrock) dans ces outils.",
       "Conception et maintenance d'une application mobile sociale dans le secteur du café de spécialité (700 utilisateurs actifs).",
@@ -26,7 +27,8 @@ const experiences: Experience[] = [
   {
     role: "Ingénieur logiciel - Stage de fin d'études",
     company: "Orange Innovation",
-    period: "Avr.-Sept. 2023",
+    companyUrl: "https://www.orange.com/fr",
+    period: "Avr.-Sept. 2023 (6 mois)",
     description: [
       "Développement d'une solution logicielle de visualisation de topologie réseau.",
       "Manipulation des protocoles réseau (BGP, IS-IS, IGP, Flex-Algo), et intégration back-end (Python + PostgreSQL).",
@@ -36,8 +38,9 @@ const experiences: Experience[] = [
   },
   {
     role: "Ingénieur logiciel - Césure - stage et CDD",
-    company: "Polyconseil",
-    period: "Sept. 2021 - Août 2022",
+    company: "Polyconseil (aujourd'hui Polycea)",
+    companyUrl: "https://polycea.fr/",
+    period: "Sept. 2021 - Août 2022 (1 an)",
     description:
       "Développement et maintenance pour le compte d'une agence gouvernementale d'une des briques logicielles de traitement automatisé des infractions.",
     stack: ["Java", "Spring", "Oracle DB", "Angular", "Oracle DB"],
@@ -90,6 +93,7 @@ const projects = [
     stack: ["Go", "S3", "MinIO", "React"],
     github: "https://github.com/remiCzn/s3-search-engine",
     demo: "https://s3-search.remic.fr",
+    wip: false,
   },
   {
     name: "Filtrage d’e-mails et externalisation de pièces jointes via MinIO",
@@ -98,6 +102,7 @@ const projects = [
     stack: ["Flask", "Postfix", "S3", "MinIO", "Docker", "Python"],
     github:
       "https://github.com/Don-t-ttach-my-documents/don-t-ttach-my-documents",
+    wip: false,
   },
   {
     name: "Outil d’analyse de signal audio",
@@ -105,6 +110,7 @@ const projects = [
       "Application desktop Tauri (Rust + React) permettant d’ingérer des fichiers audio, d’analyser le signal (détection de tempo, segmentation en mesures, calcul RMS), et de visualiser les pistes via un lecteur embarqué.",
     stack: ["Rust", "Tauri", "React", "NodeJS"],
     github: "https://github.com/remiCzn/easy-dsp",
+    wip: true,
   },
 ];
 
@@ -203,14 +209,14 @@ export default function HomePage() {
             </div>
             <div className="max-w-xl space-y-6">
               <h1 className="text-4xl font-bold lg:text-5xl" data-animate>
-                Hi! 👋 I'm Rémi
+                Hi! 👋
               </h1>
               <p className="text-lg opacity-80" data-animate>
                 Ingénieur logiciel passionné par le développement, la conception
-                et la mise en production d'applications web et cloud. Expérience
-                sur des architectures complètes - du stockage de données à
-                l'interface utilisateur - avec un intérêt particulier pour la
-                performance, la scalabilité et l'automatisation.
+                et la mise en production d'applications web. Expérience sur des
+                architectures complètes - du stockage de données à l'interface
+                utilisateur - avec un intérêt particulier pour la performance,
+                la scalabilité et l'automatisation.
               </p>
               <div className="flex flex-wrap gap-3" data-animate>
                 <a href="#projets" className="btn btn-primary">
@@ -250,16 +256,20 @@ export default function HomePage() {
                     className="card border-l-4 border-primary bg-base-100 shadow"
                   >
                     <div className="card-body space-y-2">
-                      <div className="flex-col md:flex-row flex items-start md:items-center justify-between gap-4">
+                      <div className="flex-col md:flex-row flex items-start md:items-center justify-between gap-2">
                         <div>
                           <h4 className="text-lg font-semibold">
                             {experience.role}
                           </h4>
-                          <p className="text-sm font-medium opacity-80">
+                          <a
+                            href={experience.companyUrl}
+                            target="_blank"
+                            className="text-sm font-medium opacity-80"
+                          >
                             {experience.company}
-                          </p>
+                          </a>
                         </div>
-                        <span className="badge badge-outline">
+                        <span className="label self-start">
                           {experience.period}
                         </span>
                       </div>
@@ -374,6 +384,14 @@ export default function HomePage() {
                 <div className="card-body space-y-4">
                   <div className="flex items-center justify-between">
                     <h3 className="text-2xl font-semibold">{project.name}</h3>
+                    {project.wip && (
+                      <div
+                        className="tooltip tooltip-left"
+                        data-tip="En cours de développement"
+                      >
+                        <Construction className="size-6 text-primary" />
+                      </div>
+                    )}
                   </div>
                   <p className="opacity-80">{project.description}</p>
                   <div className="flex flex-wrap gap-2">
